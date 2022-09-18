@@ -1,5 +1,6 @@
 #pragma warning disable CA2007
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -15,13 +16,13 @@ namespace BizHawk.Client.Common
 
 		public int DefaultTimeout { get; set; } = 500;
 
-		public string GetUrl;
+		public string? GetUrl;
 
-		public string PostUrl;
+		public string? PostUrl;
 
 		public int Timeout { get; set; }
 
-		public HttpCommunication(Func<byte[]> takeScreenshotCallback, string getURL, string postURL)
+		public HttpCommunication(Func<byte[]> takeScreenshotCallback, string? getURL, string? postURL)
 		{
 			_takeScreenshotCallback = takeScreenshotCallback;
 			GetUrl = getURL;

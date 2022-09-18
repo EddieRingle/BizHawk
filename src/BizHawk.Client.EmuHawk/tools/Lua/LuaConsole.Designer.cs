@@ -73,6 +73,8 @@ namespace BizHawk.Client.EmuHawk
 			this.DisableScriptsOnLoadMenuItem = new BizHawk.WinForms.Controls.ToolStripMenuItemEx();
 			this.ReturnAllIfNoneSelectedMenuItem = new BizHawk.WinForms.Controls.ToolStripMenuItemEx();
 			this.ReloadWhenScriptFileChangesMenuItem = new BizHawk.WinForms.Controls.ToolStripMenuItemEx();
+			this.toolStripSeparatorHttp = new BizHawk.WinForms.Controls.ToolStripSeparatorEx();
+			this.AllowHttpInScriptsMenuItem = new BizHawk.WinForms.Controls.ToolStripMenuItemEx();
 			this.toolStripSeparator4 = new BizHawk.WinForms.Controls.ToolStripSeparatorEx();
 			this.RegisterToTextEditorsSubMenu = new BizHawk.WinForms.Controls.ToolStripMenuItemEx();
 			this.RegisterSublimeText2MenuItem = new BizHawk.WinForms.Controls.ToolStripMenuItemEx();
@@ -349,6 +351,8 @@ namespace BizHawk.Client.EmuHawk
             this.DisableScriptsOnLoadMenuItem,
             this.ReturnAllIfNoneSelectedMenuItem,
             this.ReloadWhenScriptFileChangesMenuItem,
+			this.toolStripSeparatorHttp,
+			this.AllowHttpInScriptsMenuItem,
             this.toolStripSeparator4,
             this.RegisterToTextEditorsSubMenu});
 			this.SettingsSubMenu.Text = "&Settings";
@@ -368,6 +372,11 @@ namespace BizHawk.Client.EmuHawk
 			// 
 			this.ReloadWhenScriptFileChangesMenuItem.Text = "Reload When Script File Changes";
 			this.ReloadWhenScriptFileChangesMenuItem.Click += new System.EventHandler(this.ReloadWhenScriptFileChangesMenuItem_Click);
+			// 
+			// AllowHttpInScriptsMenuItem
+			// 
+			this.AllowHttpInScriptsMenuItem.Text = "Allow HTTP Calls in Scripts";
+			this.AllowHttpInScriptsMenuItem.Click += new System.EventHandler(this.AllowHttpInScriptsMenuItem_Click);
 			// 
 			// RegisterToTextEditorsSubMenu
 			// 
@@ -790,6 +799,8 @@ namespace BizHawk.Client.EmuHawk
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private BizHawk.WinForms.Controls.ToolStripMenuItemEx ReturnAllIfNoneSelectedMenuItem;
 		private BizHawk.WinForms.Controls.ToolStripMenuItemEx ReloadWhenScriptFileChangesMenuItem;
+		private BizHawk.WinForms.Controls.ToolStripSeparatorEx toolStripSeparatorHttp;
+		private BizHawk.WinForms.Controls.ToolStripMenuItemEx AllowHttpInScriptsMenuItem;
 		private BizHawk.WinForms.Controls.ToolStripSeparatorEx toolStripSeparator4;
 		private BizHawk.WinForms.Controls.ToolStripMenuItemEx RegisterToTextEditorsSubMenu;
 		private BizHawk.WinForms.Controls.ToolStripMenuItemEx RegisterSublimeText2MenuItem;

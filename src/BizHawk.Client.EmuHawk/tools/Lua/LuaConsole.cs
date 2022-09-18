@@ -1125,6 +1125,7 @@ namespace BizHawk.Client.EmuHawk
 			DisableScriptsOnLoadMenuItem.Checked = Config.DisableLuaScriptsOnLoad;
 			ReturnAllIfNoneSelectedMenuItem.Checked = Settings.ToggleAllIfNoneSelected;
 			ReloadWhenScriptFileChangesMenuItem.Checked = Settings.ReloadOnScriptFileChange;
+			AllowHttpInScriptsMenuItem.Checked = Config?.AllowHttpInLuaScripts ?? false;
 		}
 
 		private void DisableScriptsOnLoadMenuItem_Click(object sender, EventArgs e)
@@ -1149,6 +1150,11 @@ namespace BizHawk.Client.EmuHawk
 			{
 				_watches.Clear();
 			}
+		}
+		
+		private void AllowHttpInScriptsMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Config != null) Config.AllowHttpInLuaScripts ^= true;
 		}
 
 		private void RegisterToTextEditorsSubMenu_DropDownOpened(object sender, EventArgs e)

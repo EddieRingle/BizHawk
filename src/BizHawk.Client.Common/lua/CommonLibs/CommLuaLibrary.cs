@@ -217,85 +217,78 @@ namespace BizHawk.Client.Common
 		[return: LuaArbitraryStringParam]
 		public string HttpTest()
 		{
-			_ = APIs.Comm.HTTP!; // to match previous behaviour
-			return UnFixString(APIs.Comm.HttpTest());
+			return CheckHttp() ? UnFixString(APIs.Comm.HttpTest()) : null;
 		}
 
 		[LuaMethod("httpTestGet", "tests the HTTP GET connection")]
 		[return: LuaArbitraryStringParam]
 		public string HttpTestGet()
 		{
-			CheckHttp();
-			return UnFixString(APIs.Comm.HttpTestGet());
+			return CheckHttp() ? UnFixString(APIs.Comm.HttpTestGet()) : null;
 		}
 
 		[LuaMethod("httpGet", "makes a HTTP GET request")]
 		[return: LuaArbitraryStringParam]
 		public string HttpGet([LuaArbitraryStringParam] string url)
 		{
-			CheckHttp();
-			return UnFixString(APIs.Comm.HTTP?.ExecGet(FixString(url)));
+			return CheckHttp() ? UnFixString(APIs.Comm.HTTP.ExecGet(FixString(url))) : null;
 		}
 
 		[LuaMethod("httpPost", "makes a HTTP POST request")]
 		[return: LuaArbitraryStringParam]
 		public string HttpPost([LuaArbitraryStringParam] string url, [LuaArbitraryStringParam] string payload)
 		{
-			CheckHttp();
-			return UnFixString(APIs.Comm.HTTP?.ExecPost(FixString(url), FixString(payload)));
+			return CheckHttp() ? UnFixString(APIs.Comm.HTTP.ExecPost(FixString(url), FixString(payload))) : null;
 		}
 
 		[LuaMethod("httpPostScreenshot", "HTTP POST screenshot")]
 		[return: LuaArbitraryStringParam]
 		public string HttpPostScreenshot()
 		{
-			CheckHttp();
-			return UnFixString(APIs.Comm.HTTP?.SendScreenshot());
+			return CheckHttp() ? UnFixString(APIs.Comm.HTTP.SendScreenshot()) : null;
 		}
 
 		[LuaMethod("httpSetTimeout", "Sets HTTP timeout in milliseconds")]
 		public void HttpSetTimeout(int timeout)
 		{
-			CheckHttp();
-			APIs.Comm.HTTP?.SetTimeout(timeout);
+			if (CheckHttp()) APIs.Comm.HTTP.SetTimeout(timeout);
 		}
 
 		[LuaMethod("httpSetPostUrl", "Sets HTTP POST URL")]
 		public void HttpSetPostUrl([LuaArbitraryStringParam] string url)
 		{
-			CheckHttp();
-			APIs.Comm.HTTP.PostUrl = FixString(url);
+			if (CheckHttp()) APIs.Comm.HTTP.PostUrl = FixString(url);
 		}
 
 		[LuaMethod("httpSetGetUrl", "Sets HTTP GET URL")]
 		public void HttpSetGetUrl([LuaArbitraryStringParam] string url)
 		{
-			CheckHttp();
-			APIs.Comm.HTTP.GetUrl = FixString(url);
+			if (CheckHttp()) APIs.Comm.HTTP.GetUrl = FixString(url);
 		}
 
 		[LuaMethod("httpGetPostUrl", "Gets HTTP POST URL")]
 		[return: LuaArbitraryStringParam]
 		public string HttpGetPostUrl()
 		{
-			CheckHttp();
-			return UnFixString(APIs.Comm.HTTP?.PostUrl);
+			return CheckHttp() ? UnFixString(APIs.Comm.HTTP.PostUrl) : null;
 		}
 
 		[LuaMethod("httpGetGetUrl", "Gets HTTP GET URL")]
 		[return: LuaArbitraryStringParam]
 		public string HttpGetGetUrl()
 		{
-			CheckHttp();
-			return UnFixString(APIs.Comm.HTTP?.GetUrl);
+			return CheckHttp() ? UnFixString(APIs.Comm.HTTP.GetUrl) : null;
 		}
 
-		private void CheckHttp()
+		private bool CheckHttp()
 		{
-			if (APIs.Comm.HTTP == null)
+			if (APIs.Comm.IsHttpAllowedInScripts())
 			{
-				Log("HTTP was not initialized, please initialize it via the command line");
+				return true;
 			}
+
+			Log("HTTP is currently disallowed in Lua scripts; allow it via the Lua Console's Settings menu");
+			return false;
 		}
 
 #if ENABLE_WEBSOCKETS

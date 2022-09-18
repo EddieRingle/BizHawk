@@ -4,7 +4,9 @@ namespace BizHawk.Client.Common
 {
 	public interface ICommApi : IExternalApi
 	{
-		HttpCommunication? HTTP { get; }
+		bool IsHttpAllowedInScripts();
+
+		HttpCommunication HTTP { get; }
 
 		MemoryMappedFiles MMF { get; }
 

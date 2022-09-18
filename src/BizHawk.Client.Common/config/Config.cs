@@ -259,6 +259,8 @@ namespace BizHawk.Client.Common
 
 		// luaconsole-refactor TODO: move this to LuaConsole settings
 		public bool RunLuaDuringTurbo { get; set; } = true;
+		
+		public bool AllowHttpInLuaScripts { get; set; }
 
 		// Watch Settings
 		public RecentFiles RecentWatches { get; set; } = new RecentFiles(8);

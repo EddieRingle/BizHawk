@@ -603,9 +603,7 @@ namespace BizHawk.Client.EmuHawk
 			// set up networking before Lua
 			byte[] NetworkingTakeScreenshot() => (byte[]) new ImageConverter().ConvertTo(MakeScreenshotImage().ToSysdrawingBitmap(), typeof(byte[]));
 			NetworkingHelpers = (
-				_argParser.HTTPAddresses == null
-					? null
-					: new HttpCommunication(NetworkingTakeScreenshot, _argParser.HTTPAddresses.Value.UrlGet, _argParser.HTTPAddresses.Value.UrlPost),
+				new HttpCommunication(NetworkingTakeScreenshot, _argParser.HTTPAddresses?.UrlGet, _argParser.HTTPAddresses?.UrlPost),
 				new MemoryMappedFiles(NetworkingTakeScreenshot, _argParser.MMFFilename),
 				_argParser.SocketAddress == null
 					? null
@@ -863,6 +861,8 @@ namespace BizHawk.Client.EmuHawk
 		public bool IsSeeking => PauseOnFrame.HasValue;
 		private bool IsTurboSeeking => PauseOnFrame.HasValue && Config.TurboSeek;
 		public bool IsTurboing => InputManager.ClientControls["Turbo"] || IsTurboSeeking;
+
+		public bool IsUnthrottled => _throttle.signal_unthrottle;
 
 		/// <summary>
 		/// Used to disable secondary throttling (e.g. vsync, audio) for unthrottled modes or when the primary (clock) throttle is taking over (e.g. during fast forward/rewind).

@@ -6,9 +6,13 @@ namespace BizHawk.Client.Common
 	{
 		private static readonly WebSocketServer _wsServer = new WebSocketServer();
 
-		private readonly (HttpCommunication? HTTP, MemoryMappedFiles MMF, SocketServer? Sockets) _networkingHelpers;
+		private readonly (HttpCommunication HTTP, MemoryMappedFiles MMF, SocketServer? Sockets) _networkingHelpers;
 
-		public HttpCommunication? HTTP => _networkingHelpers.HTTP;
+		private readonly Config _config;
+
+		public bool IsHttpAllowedInScripts() => _config.AllowHttpInLuaScripts;
+
+		public HttpCommunication HTTP => _networkingHelpers.HTTP;
 
 		public MemoryMappedFiles MMF => _networkingHelpers.MMF;
 
@@ -16,10 +20,14 @@ namespace BizHawk.Client.Common
 
 		public WebSocketServer WebSockets => _wsServer;
 
-		public CommApi(IMainFormForApi mainForm) => _networkingHelpers = mainForm.NetworkingHelpers;
+		public CommApi(IMainFormForApi mainForm, Config config)
+		{
+			_networkingHelpers = mainForm.NetworkingHelpers;
+			_config = config;
+		}
 
-		public string? HttpTest() => HTTP == null ? null : string.Join("\n", HttpTestGet(), HTTP.SendScreenshot(), "done testing");
+		public string? HttpTest() => IsHttpAllowedInScripts() ? string.Join("\n", HttpTestGet(), HTTP.SendScreenshot(), "done testing") : null;
 
-		public string? HttpTestGet() => HTTP?.Get(HTTP.GetUrl)?.Result;
+		public string? HttpTestGet() => IsHttpAllowedInScripts() ? HTTP.Get(HTTP.GetUrl)?.Result : null;
 	}
 }

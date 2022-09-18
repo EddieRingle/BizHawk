@@ -84,6 +84,8 @@ namespace BizHawk.Client.Common
 
 		bool IsTurbo();
 
+		bool IsUnthrottled();
+
 		/// <summary>
 		/// Load a savestate specified by its name
 		/// </summary>
@@ -182,6 +184,8 @@ namespace BizHawk.Client.Common
 		void SetWindowSize(int size);
 
 		void SpeedMode(int percent);
+
+		int GetSpeed();
 
 		void TogglePause();
 

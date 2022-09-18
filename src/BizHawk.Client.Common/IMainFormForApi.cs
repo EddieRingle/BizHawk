@@ -25,6 +25,8 @@ namespace BizHawk.Client.Common
 
 		/// <remarks>only referenced from <c>EmuClientApi</c></remarks>
 		bool IsTurboing { get; }
+		
+		bool IsUnthrottled { get; }
 
 		/// <remarks>only referenced from <see cref="CommApi"/></remarks>
 		(HttpCommunication HTTP, MemoryMappedFiles MMF, SocketServer Sockets) NetworkingHelpers { get; }

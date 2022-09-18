@@ -103,6 +103,8 @@ namespace BizHawk.Client.Common
 
 		public bool IsTurbo() => _mainForm.IsTurboing;
 
+		public bool IsUnthrottled() => _mainForm.IsUnthrottled;
+
 		public void LoadState(string name) => _mainForm.LoadState(Path.Combine(_config.PathEntries.SaveStateAbsolutePath(Game.System), $"{name}.State"), name, suppressOSD: false);
 
 		public void OnBeforeQuickLoad(object sender, string quickSaveSlotName, out bool eventHandled)
@@ -208,6 +210,11 @@ namespace BizHawk.Client.Common
 		{
 			if (percent.StrictlyBoundedBy(0.RangeTo(6400))) _mainForm.ClickSpeedItem(percent);
 			else _logCallback("Invalid speed value");
+		}
+
+		public int GetSpeed()
+		{
+			return _config.SpeedPercent;
 		}
 
 		public void TogglePause() => _mainForm.TogglePause();

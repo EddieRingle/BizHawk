@@ -163,10 +163,15 @@ namespace BizHawk.Client.Common
 		public bool IsPaused()
 			=> APIs.EmuClient.IsPaused();
 
-		[LuaMethodExample("if ( client.client.isturbo( ) ) then\r\n\tconsole.log( \"Returns true if emulator is in turbo mode, otherwise, false\" );\r\nend;")]
+		[LuaMethodExample("if ( client.isturbo( ) ) then\r\n\tconsole.log( \"Returns true if emulator is in turbo mode, otherwise, false\" );\r\nend;")]
 		[LuaMethod("isturbo", "Returns true if emulator is in turbo mode, otherwise, false")]
 		public bool IsTurbo()
 			=> APIs.EmuClient.IsTurbo();
+		
+		[LuaMethodExample("if ( client.isunthrottled( ) ) then\r\n\tconsole.log( \"Returns true if emulator is unthrottled, otherwise, false\" );\r\nend;")]
+		[LuaMethod("isunthrottled", "Returns true if emulator is unthrottled, otherwise, false")]
+		public bool IsUnthrottled()
+			=> APIs.EmuClient.IsUnthrottled();
 
 		[LuaMethodExample("if ( client.isseeking( ) ) then\r\n\tconsole.log( \"Returns true if emulator is seeking, otherwise, false\" );\r\nend;")]
 		[LuaMethod("isseeking", "Returns true if emulator is seeking, otherwise, false")]
@@ -275,6 +280,11 @@ namespace BizHawk.Client.Common
 		[LuaMethod("speedmode", "Sets the speed of the emulator (in terms of percent)")]
 		public void SpeedMode(int percent)
 			=> APIs.EmuClient.SpeedMode(percent);
+
+		[LuaMethodExample("local speedPercentage = client.getspeed();")]
+		[LuaMethod("getspeed", "Gets the target speed of the emulator (in terms of percent)")]
+		public int GetSpeed()
+			=> APIs.EmuClient.GetSpeed();
 
 		[LuaMethodExample("local curSpeed = client.getconfig().SpeedPercent")]
 		[LuaMethod("getconfig", "gets the current config settings object")]

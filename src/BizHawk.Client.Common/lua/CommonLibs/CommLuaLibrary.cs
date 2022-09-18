@@ -136,6 +136,31 @@ namespace BizHawk.Client.Common
 			return true;
 		}
 
+		[LuaMethod("mmfOpenOrCreateFile", "Opens or creates a memory-mapped file on disk")]
+		public int MmfOpenOrCreateFile([LuaArbitraryStringParam] string filePath, long capacity)
+		{
+			return APIs.Comm.MMF
+				.OpenOrCreateFile(filePath, capacity)
+				.Handle;
+		}
+
+		[LuaMethod("mmfCopyFromMemoryToFile", "Copy a section of the memory to an open memory-mapped file on disk")]
+		public int MmfCopyFromMemoryToMappedFile(
+			int handle,
+			long addr,
+			int length,
+			[LuaASCIIStringParam] string domain)
+		{
+			return APIs.Comm.MMF.WriteToMappedFile(handle, APIs.Memory.ReadByteRange(addr, length, domain)
+				.ToArray());
+		}
+
+		[LuaMethod("mmfDisposeFile", "Disposes a memory-mapped file handle")]
+		public bool MmfDisposeFile(int handle)
+		{
+			return APIs.Comm.MMF.DisposeMappedFile(handle);
+		}
+
 		// All MemoryMappedFile related methods
 		[LuaMethod("mmfSetFilename", "Sets the filename for the screenshots")]
 		public void MmfSetFilename([LuaArbitraryStringParam] string filename)

@@ -4,4 +4,10 @@
 	<ItemGroup>
 		<EmbeddedResource Include="icon_Hello.ico" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\BizHawk.Client.Common\BizHawk.Client.Common.csproj" />
+	  <ProjectReference Include="..\..\src\BizHawk.Client.EmuHawk\BizHawk.Client.EmuHawk.csproj" />
+	  <ProjectReference Include="..\..\src\BizHawk.Common\BizHawk.Common.csproj" />
+	  <ProjectReference Include="..\..\src\BizHawk.WinForms.Controls\BizHawk.WinForms.Controls.csproj" />
+	</ItemGroup>
 </Project>

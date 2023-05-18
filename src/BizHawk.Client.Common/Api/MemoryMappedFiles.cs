@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Text;
+using BizHawk.Common.PathExtensions;
 
 namespace BizHawk.Client.Common
 {
@@ -51,15 +52,37 @@ namespace BizHawk.Client.Common
 			return WriteToFile(Filename, _takeScreenshotCallback());
 		}
 
-		public (MemoryMappedFile MappedFile, int Handle) OpenOrCreateFile(string filePath, long size)
+		public (MemoryMappedFile MappedFile, int Handle)? OpenOrCreateFile(string fileName, string basePath, long size)
 		{
-			var fileName = Path.GetFileName(filePath);
-			var file = File.Open(
-				path: filePath,
-				mode: FileMode.OpenOrCreate,
-				access: FileAccess.ReadWrite,
-				share: FileShare.ReadWrite
-			);
+			Console.WriteLine($">> OpenOrCreateFile({fileName}, {basePath}, {size})");
+			var filePath = Path.Combine(basePath, fileName);
+			Console.WriteLine($"-- opening or creating the file '{fileName}'");
+			FileStream file;
+			try
+			{
+				if (basePath.Length > 0)
+				{
+					Directory.CreateDirectory(basePath);
+				}
+				file = File.Open(
+					path: filePath,
+					mode: FileMode.OpenOrCreate,
+					access: FileAccess.ReadWrite,
+					share: FileShare.ReadWrite
+				);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				return null;
+			}
+
+			Console.WriteLine($"-- opened file {file}");
+			if (file.Length < size)
+			{
+				Console.WriteLine("-- resizing file...");
+				file.SetLength(size);
+			}
 			var mmf = MemoryMappedFile.CreateFromFile(
 				fileStream: file,
 				mapName: fileName,
@@ -68,13 +91,15 @@ namespace BizHawk.Client.Common
 				inheritability: HandleInheritability.Inheritable,
 				leaveOpen: false
 			);
+			Console.WriteLine("-- created memory mapped file");
 			var handle = mmf.SafeMemoryMappedFileHandle.DangerousGetHandle()
 				.ToInt32();
 			_mmfFilesOnDisk[handle] = mmf;
+			Console.WriteLine($"-- created mapped file of {fileName} with handle {handle}");
 			return (MappedFile: mmf, Handle: handle);
 		}
 
-		public int WriteToMappedFile(int handle, byte[] outputBytes)
+		public int WriteToMappedFile(int handle, byte[] outputBytes, int offset = 0)
 		{
 			if (!_mmfFilesOnDisk.TryGetValue(handle, out var mmf))
 			{

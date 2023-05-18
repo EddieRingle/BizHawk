@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-
+using BizHawk.Common;
 using NLua;
 
 namespace BizHawk.Client.Common
@@ -137,11 +137,11 @@ namespace BizHawk.Client.Common
 		}
 
 		[LuaMethod("mmfOpenOrCreateFile", "Opens or creates a memory-mapped file on disk")]
-		public int MmfOpenOrCreateFile([LuaArbitraryStringParam] string filePath, long capacity)
+		public int MmfOpenOrCreateFile([LuaArbitraryStringParam] string fileName, [LuaArbitraryStringParam] string basePath, long capacity)
 		{
-			return APIs.Comm.MMF
-				.OpenOrCreateFile(filePath, capacity)
-				.Handle;
+			var result = APIs.Comm.MMF.OpenOrCreateFile(fileName, basePath, capacity)?.Handle;
+			Console.WriteLine($"~> OpenOrCreateFile result: {result}");
+			return result ?? 0;
 		}
 
 		[LuaMethod("mmfCopyFromMemoryToFile", "Copy a section of the memory to an open memory-mapped file on disk")]
